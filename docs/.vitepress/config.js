@@ -5,7 +5,13 @@ module.exports = {
     base: '/',
     lang: 'zh-CN',
     markdown: {
-        lineNumbers:true,
+        lineNumbers: true, //显示行号
+        // anchor: { premalink: false },
+        // toc: { includeLevel: [1, 2] },
+        config: (md) => {
+            const { demoBlockPlugin } = require('vitepress-theme-demoblock')
+            md.use(demoBlockPlugin)
+        }
     }, 
     lastUpdated:true,
     head: [
@@ -13,13 +19,13 @@ module.exports = {
             'link',
             {
                 rel: 'icon',
-                href:'/img/linktolink.png'
+                href:'/img/logo.png'
             }
         ]
     ],
     //主题配置
     themeConfig: {
-        repo: 'vuejs/vitepress',
+        repo: 'https://github.com/makasyyy',
         author:'makasyyy',
         lastUpdatedText: '上次更新时间：',
         docFooter: {
@@ -29,8 +35,12 @@ module.exports = {
         // 头部导航
         nav: [
             { text: '首页', link: '/' },
+            {text: '前端小记', link:'/read/'},
             {
-                text: '前端小记', link:'/read/'
+                text: 'self', items: [
+                    { text: '年度总结&计划', link: '/other/year/' },
+                    { text:'resource 汇总', link: '/other/resource/'}
+                ]
             },
         ],
         // 侧边导航
@@ -38,4 +48,10 @@ module.exports = {
             {text:'我的',link:'/mine/'}
         ]
     }
+}
+
+function getSideBar() {
+    return [{
+
+    }]
 }

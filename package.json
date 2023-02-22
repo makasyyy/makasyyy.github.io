@@ -4,17 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"vitepress dev docs",
-    "build":"vitepress build docs",
+    "start": "vitepress dev docs",
+    "build": "vitepress build docs",
     "serve": "vitepress serve docs",
-    "deploy":"GH=1 pnpm build && bash scripts/deploy.sh",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "GH=1 pnpm build && bash scripts/deploy.sh",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "register:components": "vitepress-rc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "vitepress": "1.0.0-alpha.41",
+    "vitepress-theme-demoblock": "^2.0.2",
     "vue": "^3.2.45"
   }
 }

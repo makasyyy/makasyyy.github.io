@@ -2,27 +2,27 @@
 layout: home
 
 hero:
-  name: VitePress
-  text: Vite & Vue powered static site generator.
-  tagline: Lorem ipsum...
+  name: Hello
+  text: makasssyの前端小记
+  tagline: 努力施工ing...
   image:
-    src: /logo.png
-    alt: VitePress
+    src: /img/logo.png
+    alt: logo
   actions:
     - theme: brand
       text: Get Started
-      link: /guide/what-is-vitepress
+      link: /read/index
     - theme: alt
       text: View on GitHub
-      link: https://github.com/vuejs/vitepress
+      link: https://github.com/makasyyy/makasyyy.github.io
 features: 
   - icon: ⚡️ 
-    title: Vite, The DX that can't be beat 
-    details: Lorem ipsum... 
+    title: OutPut
+    details: Persist in outputting articles... 
   - icon: 🖖 
-    title: Power of Vue meets Markdown 
-    details: Lorem ipsum... 
+    title: Review
+    details: Regular review to deepen the impression... 
   - icon: 🛠️ 
-    title: Simple and minimal, always 
-    details: Lorem ipsum...
+    title: Strive
+    details: Strive to become strong and rich...
 ---
