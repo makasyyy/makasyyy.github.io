@@ -122,3 +122,47 @@ setTimeout(() => {
 }, 1000)
 ```
 
+# 浏览器
+## 1. 浏览器的缓存策略是什么
+1. last-modified缺点是什么？
+2. last-modified优先级低
+3. 请你说下你们当前项目的静态资源缓存策略是什么-
+   1. index.html不缓存
+   2. 根据文件名来判断，它的hash值变的话就说明变了，强缓存
+   3. 我们能设置的就是响应头，请求头设置不了，什么在打包时设置什么什么什么
+## 2. 浏览器从输入网址到展现的过程
+## 3. cookie，session，localStorage,sessionStorage区别
+  详细解释下session是什么，可以理解session就是存储在服务端的cookie
+  cookie有哪些属性可以设置？
+  cookie可以跨域吗？如果要跨域那怎么做呢，前端其实也有一个属性需要设置-什么withCredentials  origin不能设置为星号 要设置为一个具体的domain的域名，设置为星号会报错
+## 4. 什么是cors的options的预检请求
+## 5. 如何检查内存泄漏
+## 6. 你们在实际开发过程中怎么解决跨域问题
+我知道有哪些方案
+ 1. jsonp
+ 2. cors
+ 3. postmessage
+ 4. nginx
+ 5. h5新出的协议
+实际中是。。。
+## 7. content-type有哪些值
+## 8. 你了解到的状态码有哪些？
+203做错误监控很常见
+400九成是自己前端传的参数错误
+401没有登录或登录失效
+403已登录情况下没有权限
+## 9. tcp/udp区别
+http3.0为什么udp在3.0稳定性高
+## 10. 安全-xss注入攻击，csrf
+# react
+## 1. 为什么需要合成事件
+## 2. usememo和usecallback区别，本身对性能影响如何呢，它本身就会加重性能负担  hooks底层实现是闭包
+## 3. react hook
+## 4. useEffect 和 useLayoutEffect区别
+## 5. react hook中有一个闭包陷阱，有遇到过吗
+useref解决闭包问题？？
+## 6. useref定义的值和usestate的值有什么区别
+## 7. 为什么要出现react fiber
+## 8. redux中间件的机制
+## 9. redux函数式编程的思想
+
