@@ -1,0 +1,48 @@
+# CSS
+- display属性
+- block ,inline-block,inline区别
+- 隐藏元素的方法有哪些：display,visibility,opacity,position,z-index,transform:scale(0)
+- link 和@import 区别
+- transition和animation区别
+- display:none 和 visibility:hidden 区别
+- 伪元素和伪类的区别和作用
+- 对盒模型的理解- 标准盒模型和ie盒模型 box-sizing
+- 为什么有时用translate改变位置而不是定位？ 不会触发
+- li与li之间看不见的空白间隙怎么回事，如何解决？
+- css3新特性
+- 常见图片格式及使用场景 bmp gif jpeg png-8/24 svg webp
+- 什么是物理像素，逻辑像素和像素密度，为什么在移动端开发时需要用到@3x,@2x这种图片
+- margin和padding的使用场景 -他两区别在于border
+- 对line-height的理解及其赋值方式 
+- css优化和提高性能的方法： 加载/选择器/渲染/可维护性.健壮性
+- 引申一下为什么要少用浮动
+- css预处理器和后处理器是什么，为什么要使用它们？
+- ::before 和:after的双冒号和单冒号有什么区别
+- display:inline-block什么时候会显示间隙
+- 单行，多行文本溢出隐藏
+- sass 和less 是什么，为什么用它们
+- 对媒体查询的理解- 针对不同的屏幕尺寸设置不同的样式
+- 对css工程化的理解 - 预处理器，工程化插件，webpack loader等
+- 如何判断元素是否到达了可视区域
+- z-index在什么情况下会失效？ 它的position属性，三种情况
+- css3的transform有哪些属性：
+- 常见的css布局单位及其使用场景
+- 引申一个问题：设置height：100%失效 百分比单位相对于直接父元素
+- 两栏布局的实现-左边栏固定，右边栏宽度自适应 -两个利用浮动，一个flex，两个绝对定位
+- 三蓝布局的实现- 左右两栏固定，中间自适应 -绝对定位，flex布局，浮动-中间一栏必须放最后，圣杯布局，双飞翼布局，
+- 水平垂直居中实现方式 -三个绝对定位，一个flex
+- 如何进行移动端适配
+- 对flex布局的理解及其使用场景 flex-容器6属性，项目6属性
+- 为什么要清除浮动，清除浮动的方式（重要）
+- 对BFC的理解，如何创建BFC（重要）
+- 什么是mmargin重叠问题，如何解决（重要）
+- 元素的层叠顺序
+- position有哪些属性，区别是什么 5种
+- display,float,position的关系  优先级 display>positon>float （有点复杂，要着重看下）
+- absolute和fixed 的共同点和不同点
+- 实现一个三角形
+- 实现一个扇形 -相比前面多了一个radius
+- 实现一个宽高自适应的正方形 vw/margin,padding/margin-top(伪元素)
+- 画一个0.5px的线  transform meta、viewport 
+- 设置小于12px的字体 -webkit-text-size-adjust -webkit-transform:scale() 图片
+- 如何解决1px问题：在一些retina屏幕上，1px却很粗呈现的并不止1px的效果
