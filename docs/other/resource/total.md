@@ -46,3 +46,6 @@
 - 画一个0.5px的线  transform meta、viewport 
 - 设置小于12px的字体 -webkit-text-size-adjust -webkit-transform:scale() 图片
 - 如何解决1px问题：在一些retina屏幕上，1px却很粗呈现的并不止1px的效果
+
+# js
+- js
