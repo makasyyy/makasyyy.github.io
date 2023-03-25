@@ -1,5 +1,6 @@
 # CSS
-- display属性
+- css选择器
+- display属性 常见的四个+flex grid inherit
 - block ,inline-block,inline区别
 - 隐藏元素的方法有哪些：display,visibility,opacity,position,z-index,transform:scale(0)
 - link 和@import 区别
@@ -15,10 +16,11 @@
 - margin和padding的使用场景 -他两区别在于border
 - 对line-height的理解及其赋值方式 
 - css优化和提高性能的方法： 加载/选择器/渲染/可维护性.健壮性
-- 引申一下为什么要少用浮动
+- 引申一下为什么要少用浮动，清除浮动的方法？ 四种 总共就是两类：利用clear属性或者父元素开启BFC
+- 引申一下什么是BFC,怎么开启BFC
 - css预处理器和后处理器是什么，为什么要使用它们？
 - ::before 和:after的双冒号和单冒号有什么区别
-- display:inline-block什么时候会显示间隙
+- display:inline-block什么时候会显示间隙 回车空格原因导致的 父元素font-size0 letter-sapcing(chrome) 
 - 单行，多行文本溢出隐藏
 - sass 和less 是什么，为什么用它们
 - 对媒体查询的理解- 针对不同的屏幕尺寸设置不同的样式
@@ -29,23 +31,138 @@
 - 常见的css布局单位及其使用场景
 - 引申一个问题：设置height：100%失效 百分比单位相对于直接父元素
 - 两栏布局的实现-左边栏固定，右边栏宽度自适应 -两个利用浮动，一个flex，两个绝对定位
-- 三蓝布局的实现- 左右两栏固定，中间自适应 -绝对定位，flex布局，浮动-中间一栏必须放最后，圣杯布局，双飞翼布局，
-- 水平垂直居中实现方式 -三个绝对定位，一个flex
+- 三栏布局的实现- 左右两栏固定，中间自适应 -绝对定位，flex布局，浮动-中间一栏必须放最后，圣杯布局，双飞翼布局 
+  - 圣杯和双飞翼看这个 ![https://juejin.cn/post/6973562604581027853] 讲得很详细
+- 水平垂直居中实现方式 -三个绝对定位（transfrom跟margin），一个flex
 - 如何进行移动端适配
 - 对flex布局的理解及其使用场景 flex-容器6属性，项目6属性
-- 为什么要清除浮动，清除浮动的方式（重要）
-- 对BFC的理解，如何创建BFC（重要）
-- 什么是mmargin重叠问题，如何解决（重要）
+- 为什么要清除浮动，清除浮动的方式（重要） 在父容器不设置高度，子容器浮动的情况下，父容器高度不会被子元素撑开，这种称之为溢出，因为浮动元素已经脱离文档流，不占据空间，所以引起了高度塌陷现象。所以要清除浮动  要注意clear属性只有block元素才有，所以如果是用伪元素的话要改display属性。
+- 对BFC的理解，如何创建BFC（重要）计算BFC高度时候还要计算浮动元素的值，所以父元素开启BFC后,子元素的浮动引起的高度塌陷就没啦，常用的办法就是给父元素设置overflow:hidden
+  - 可以利用BFC不跟浮动元素发生重叠的特性实现自适应两栏布局 
+- 什么是margin重叠问题，如何解决（重要）
+  - 垂直方向上两个块级盒子的上外边距和下外边距重叠问题，只会产生在普通流文档的上下外边距之间
+  - 所以为什么父子元素的margin重叠可以给父元素加overflow:hidden 解决，因为父元素开启BFC 后，bfc中上下相邻的兄弟元素之间的margin才会重叠
+- 所以什么情况下永远不会产生外边距重叠问题？
+  - 水平外边距永远不会重叠
+  - 设置了overflow不为visible的元素和它的子元素之间的margin不会重叠
+  - 兄弟元素中，如果其中一个是浮动的，那么垂直margin也不会重叠，且这个浮动盒子和子元素也不会重叠
+  - position为absolute和fixed的盒模型，兄弟元素和其子元素之间也不会重叠
+  - 总结这四条：本质就是触发了bfc的元素不会发生margin重叠
+- BFC和IFC  IFC是内联盒子块级格式上下文
+- 为什么overflow:hidden不能清除兄弟元素的外边距重叠，但是display:inline-block可以清除兄弟元素的外边距重叠问题
+  - 自答：display:inline-block可以是因为 外边距重叠是发生在普通文档流的块级盒子之间的，变成内联盒子的话当然就没有了，块级盒子只有block list-item table，而oveflow：hidden相当于把两个都变成了独立bfc，它两还是同一文档流的块级盒子，所以外边距问题还是存在
+  - 浮动元素和绝对定位可以清除兄弟元素的外边距问题是因为设置了之后，该盒子就脱离了当前文档流，两个margin都不是相邻的了
+  - 两个兄弟元素给任意一个设置overflow：hidden外边距问题还在，因为开启bfc决定的是元素如何对其子元素进行定位，以及与其他元素的关系和相互作用，任意一个开启，但这两还是在同一个bfc下面，所以外边距问题还是存在，同理子元素开了bfc，它跟父元素也还是在同一个bfc下。给一个兄弟包裹一下，给父容器开启bfc，这样两个兄弟元素就不在同一个bfc下了
 - 元素的层叠顺序
 - position有哪些属性，区别是什么 5种
 - display,float,position的关系  优先级 display>positon>float （有点复杂，要着重看下）
+  - 总的一点就是position ：absolute fixed float不为none 更多的会把盒子当块盒子看，设置inline或者inline-block都会将display值转化为block，要注意：position为relative时float也有值，那么它是相对于浮动之后的最终定位来相对计算位置的
 - absolute和fixed 的共同点和不同点
 - 实现一个三角形
 - 实现一个扇形 -相比前面多了一个radius
 - 实现一个宽高自适应的正方形 vw/margin,padding/margin-top(伪元素)
-- 画一个0.5px的线  transform meta、viewport 
-- 设置小于12px的字体 -webkit-text-size-adjust -webkit-transform:scale() 图片
-- 如何解决1px问题：在一些retina屏幕上，1px却很粗呈现的并不止1px的效果
+- 画一个0.5px的线  transform meta、viewport  伪元素经常
+- 设置小于12px的字体  scale or svg
+- 如何解决1px问题：在一些retina屏幕上，1px却很粗呈现的并不止1px的效果 
+  - 移动设备的物理像素跟css世界的像素不一样，比如有个比率值：设备的物理像素/css像素 2倍3倍之类的 
+  - 那么如何解决呢：
+    1. 拿到devicePixelRatio值设置data-device值 兼容性不好
+    2. 使用伪元素先放大后缩小-可行性and兼容性都好
+    3. viewport解决 但是会无差别缩小，其他元素maybe会被影响
 
 # js
-- js
+- js数据类型，区别 八种
+- 数据类型检测方式有哪些 typeof instanceof constructor Object.prototype.toString.call()
+  -  null和undefined就没有constructor，constructor本质是对象实例访问它的构造函数，如果改变了它的原型的话-prototype,那么constructor就不能用来判断数据类型了,所以一般不用它来判断，它是有风险的。
+  -  最后一个是使用Obejct对象的原型方法toString来判断
+  -  对象直接调用toString方法和通过Object的原型prototype来调用结果不一样，为什么？
+     -  当然是因为Array,function等类型其实已经重写了toString方法，function类型返回的是函数体的字符串，Array类型返回的是元素组成的字符串，而不会调用Object原型上的toString方法返回元素数据类型，他们重写了这个方法目的是将对象转为字符串类型，如果想得到对象的具体类型时得调用Obejct原型上的方法
+- 判断数组的方式有哪些 5种方式
+- null和undefined的区别
+  - null是空值，undefined是代表未定义的值，声明了变量但是未初始化，他两可以两等不可以三等
+- typeof null的结果是什么，为什么？ -object因为object是000开头的，而null的值是机器码NULL指向的也全都是0-所以会判断为object
+- instanceof操作符的实现原理及实现 判断 右边的prototype是否在左边的原型链上的任何位置
+- 为什么0.1+0.2！=0.3，如何使其相等（要细看一下）
+- 如何获取安全的undefined值 void
+- typeof NaN的结果是什么 number
+- isNaN 和Number.isNaN函数的区别？ 
+  - isNaN碰到非数字类型会尝试将这个数字转换为数字，因此非数字值也会返回true，蛮影响判断的
+  - Number.isNaN会先判断传入的参数是不是数字
+- ==操作符的强制类型转换规则是什么？ 先比较类型，不同
+  - 双方类型不一样时会发生类型转换，判断层级
+  - 先判断是不是在对比null和undefined，是就返回true
+  - 判断两个对比的是不是string和number在对比，是就把string转为number
+  - 判断其中一方是否为boolean，是就把它转为number判断
+  - 判断其中一方是否为object，且另外一方为string，number或symbol，是就把obejct转化为原始类型再判断，symbol类型的不能转化为数字，会报错
+- 其他值到字符串的转换规则
+- 其他值到数字的转换规则 
+  - 注意undefined是NaN null是0 对于string类型的会使用Number()来进行转换，若包含非数字值就转换为NaN,''空字符串转化为0
+- 其他值到布尔类型的转换规则 
+  - 假值 undefined null false +0 -0 NaN '' 共六个假值，其余的都是真值
+- ||和&&操作符的返回值，返回其中一个操作数的值，而非条件判断的结果
+- Object.is() 与比较操作符===，==的区别？
+  - Object.is(val1,val2)一般情况下跟===一致，处理了两个特殊情况：+0和-0不再相等，两个NaN 是相等的
+- 什么是JavaScript中的包装类型
+  - js中基本类型是没有属性和方法的，为了方便操作，js会在后台隐式的将基本类型的值转为对象
+- js中如何进行隐式类型转换 （细看一下）
+- +操作符什么时候用于字符串的拼接 
+  - 其中一个操作数是字符串或者通过toPrimitive抽象操作，再调用[[DefaultValue]]可以转化为字符串就执行字符串拼接，否则执行数字加法
+- 为什么会有biginit的提案
+- object.assign和扩展运算符是深拷贝还是浅拷贝，深拷贝与浅拷贝的区别0.0
+- JSON.stringify(JSON.parse())来深拷贝有一些缺点弊端，是什么？
+  - 时间对象
+  - 正则RegExp对象 Error对象
+  - 函数 undefined
+  - NaN Infinity -Infinity
+  - 只能序列化对象的可枚举的自有属性，有元素是构造函数生成的会丢失constructor
+  - 对象中存在循环引用的则无法实现深拷贝
+
+- 自己实现深拷贝：不要求正则和时间的情况下，手写自己熟悉的那个深拷贝，不然就是lodash那个吧还是
+
+# ES6
+- let const var的区别
+  - 变量提升，块级作用域，全局属性，重复声明，暂时性死区，初始值，指针指向
+- const对象的属性可以修改吗？
+- 如果new一个箭头函数会怎么样？漏,不可以new。
+  - 箭头函数没有prototype,也没有自己的this指向,更不可以使用arguments参数，而new的时候就是要让生成的新对象的__proto__指向构造函数的prototype属性
+- 箭头函数与普通函数的区别
+  - 更简洁
+  - 没有自己的this，取决于箭头函数定义时它作用域上文中的this继承
+  - 继承来的this指向永远不会变
+    - 注意，定义对象的大括号{}是无法形成一个单独的执行环境的，所以如果定义一个对象，对象有个属性b是一个箭头函数，那这个箭头函数的this是指向window对象的
+  - call apply bind等方法不能改变箭头函数中this的指向
+  - 不可作为构造函数使用
+  - 没有自己的arguments
+  - 没有prototype
+  - 不能用作Generator函数，不能使用yield关键字
+- 箭头函数的this指向哪里
+- 扩展运算符的作用以及使用场景
+  - 对象扩展运算符 - 浅拷贝
+  - 数组扩展运算符 - 
+- Proxy可以实现什么功能 - 自定义对象中的操作
+- 对对象与数组的解构的理解
+  - 数组解构 - 以元素位置来匹配
+  - 对象解构 - 以属性名称为匹配条件
+- 如何提取高度嵌套的对象里的指定属性 {}知道层级字段的话直接用它一步到位深层取
+- 对rest参数的理解 可以把函数的多个入参收敛进一个数组里，可以用于处理函数参数个数不确定的情况
+- es6中模板语法与字符串处理
+  includes startsWith endsWith repeat-自动重复
+# JS base
+- new操作符的实现原理
+- map和Object的区别
+- map和weakMap的区别
+- js的内置对象
+- 常用正则表达式
+- js脚本延迟加载方式有哪些？
+- js类数组对象的定义
+- 数组有哪些原生方法
+- 常见的位运算符有哪些？计算规则？
+- 为什么函数的arguments 参数是类数组而不是数组，如何遍历类数组
+- dom和bom
+- 对类数组对象的理解，如何转为数组
+- escape，encodeURI，encodeURIComponent的区别
+- 对ajax的理解，实现一个ajax请求
+- js为什么要进行变量提升，它导致了什么问题
+- 什么是尾调用，使用尾调用有什么好处
+- es6模块与commonjs模块有什么异同
+- 常见的dom操作有哪些？
