@@ -98,17 +98,18 @@
 - 其他值到数字的转换规则 
   - 注意undefined是NaN null是0 对于string类型的会使用Number()来进行转换，若包含非数字值就转换为NaN,''空字符串转化为0
 - 其他值到布尔类型的转换规则 
-  - 假值 undefined null false +0 -0 NaN '' 共六个假值，其余的都是真值
+  - 假值: undefined null false +0 -0 NaN '' 共七个假值，其余的都是真值
 - ||和&&操作符的返回值，返回其中一个操作数的值，而非条件判断的结果
 - Object.is() 与比较操作符===，==的区别？
   - Object.is(val1,val2)一般情况下跟===一致，处理了两个特殊情况：+0和-0不再相等，两个NaN 是相等的
 - 什么是JavaScript中的包装类型
   - js中基本类型是没有属性和方法的，为了方便操作，js会在后台隐式的将基本类型的值转为对象
 - js中如何进行隐式类型转换 （细看一下）
-- +操作符什么时候用于字符串的拼接 
+-  +操作符什么时候用于字符串的拼接 
   - 其中一个操作数是字符串或者通过toPrimitive抽象操作，再调用[[DefaultValue]]可以转化为字符串就执行字符串拼接，否则执行数字加法
-- 为什么会有biginit的提案
+- 为什么会有Bigint的提案 用于大数计算
 - object.assign和扩展运算符是深拷贝还是浅拷贝，深拷贝与浅拷贝的区别0.0
+  - object.assign和扩展运算符对单层对象,拷贝过后，原对象更改是不会影响的，但是如果对象的属性还是引用对象的话，那原对象做更改，拷贝的值也会更改，二者都是浅拷贝，在修改副本对象的嵌套子对象时，原对象的嵌套子对象也会发生改变,改变第一层的值，不会改变。
 - JSON.stringify(JSON.parse())来深拷贝有一些缺点弊端，是什么？
   - 时间对象
   - 正则RegExp对象 Error对象
@@ -149,20 +150,106 @@
   includes startsWith endsWith repeat-自动重复
 # JS base
 - new操作符的实现原理
+  - 创建一个新的空对象
+  - 将这个对象的原型设置为构造函数的prototype
+  - 让构造函数的this指向这个对象，执行构造函数的代码
+  - 判断函数的返回值类型，如果是值类型，返回创建的对象，如果是引用类型，就返回这个引用类型的对象
+  - 手写实现：
+    ```
+      function ObjectFactory(){
+        let newObject= null;
+        let constructor = Array.prototypr.shift.call(arguments);
+        let result = null;
+        if(typeof constructor !== 'function'){
+          console.log('type error');
+          return;
+        }
+        newObject = Object.create(constructor.prototype);
+        result = constructor.apply(newObject,arguments);
+        let flag =result && (typeof result === 'object' || typeof result === 'function');
+        return flag?result:newObeject;
+      }
+      objectFactory(构造函数，初始化参数);
+    ```
+- '__proto__' 和prototype
+  - 每个对象都有__proto__来标识自己所继承的原型，而prototype是函数才有的属性
+  - 原型链的顶端是Obejct.prototype,它的__proto__是null
 - map和Object的区别
 - map和weakMap的区别
+  - map的键可以是任何类型，而weakMap的key必须是对象。
+  - weakMap的键名所引用的对象都是弱引用（弱引用指的是-当该对象应该被垃圾回收机制回收时不会阻止GC的回收），Map的键是跟内存地址绑定的，只要内存地址不一样，就视为两个键，weakmap的键是弱引用，键所指向的对象可以被垃圾回收，此时键是无效的
+  - weakmap的弱引用的只是键名，每个键对自己所引用对象的引用都是弱引用，在没有其他引用和该键引用同一对象，这个对象就会被GC回收，相应的key则变成无效的，所以weakmap的key是不可枚举的
+  - map可以被遍历，weakmap不可以被遍历
 - js的内置对象
+  - 值-undefined,null
+  - 函数-parseInt() parseFloat() eval()
+  - 基本对象-Object Function Boolean Symbol Error 等
+  - 数字和日期对象 Number Math Date
+  - JSON Map Set WeakMap Promise
 - 常用正则表达式
 - js脚本延迟加载方式有哪些？
-- js类数组对象的定义
+  - defer属性 async属性 动态创建dom settimeout延时 js脚本放在底部最后加载
+- js类数组对象的定义，类数组转化为数组的方法（5种）
 - 数组有哪些原生方法
 - 常见的位运算符有哪些？计算规则？
+  - 原码，反码，补码
 - 为什么函数的arguments 参数是类数组而不是数组，如何遍历类数组
+  - arguments是一个对象，
 - dom和bom
-- 对类数组对象的理解，如何转为数组
+- 对类数组对象的理解，如何转为数组 5种
 - escape，encodeURI，encodeURIComponent的区别
 - 对ajax的理解，实现一个ajax请求
+  - 通过js的异步通信，从服务器获取数据，局部更新当前网页的对应部分，而不用刷新整个网页
 - js为什么要进行变量提升，它导致了什么问题
+  - 是什么造成了变量提升
 - 什么是尾调用，使用尾调用有什么好处
+  - 在一个函数的最后一步调用另一个函数。即一个函数返回的是另一个函数的调用结果
+  - 只在es6严格模式下可开启尾调用优化，正常模式下无效
+  - node环境和浏览器是默认关闭尾调用优化的，可能会有栈溢出error
+- 尾调用实例：
+- js中的执行上下文和执行栈
+  - 有全局执行上下文，函数执行上下文，和eval执行上下文
+  - 全局执行上下文在执行js脚本初始被压入执行栈最底层，函数执行栈在函数被调用时才会被压入执行栈，当该函数执行完毕后会被退出执行栈并销毁，直到所有代码都执行完毕，全局执行上下文也被推出执行栈销毁，then程序结束
+  - 创建执行上下文- 确定this,创建词法环境，创建变量环境
+    - 这里注意：this的值只有在执行的时候才能确定，定义的时候不能确认
+    - 词法环境从全局和函数来讲，全局没有外部环境，outer是null，this指向全局对象，函数中定义的变量，arguments对象，外部环境的引用
+    - 变量环境也是一个词法环境，所以它具有上面词法环境中的所有属性，在es6中前者用于存储let和const绑定，后者仅用于存储var绑定
+  - 每个执行环境都有一个表示变量的对象-变量对象，在函数被调用且在具体的函数执行之前，js引擎会将当前函数的参数列表【arguments】初始化成变量对象，并将当前执行上下文与之关联，函数代码块中声明的变量和函数将作为属性添加到这个变量对象上。。
+  - 作用域链-> 从当前上下文的变量对象中查找
+  - 提升只针对var和函数声明，函数表达式并不会被提升
 - es6模块与commonjs模块有什么异同
+  - 不同：commonjs是浅拷贝，Es6是对模块的引用，只读，不能改变其值。可以对commonjs重新赋值，改变指针指向，但是esmodule会报错
+  - 相同：都可对引入的对象进行赋值，即对象内部属性的值可以改变
+  - 要详细瞅瞅:
+    - 
 - 常见的dom操作有哪些？
+  - dom节点的增删改查
+- use strict什么意思，使用它区别是什么 (回家瞅瞅红宝书)
+- 如何判断一个对象是否属于某个类 instanceOf contsructor Object,prototype.toString().call
+- 强类型语言和弱类型语言区别 强：j c++ 强制类型定义
+- 解释型语言和编译型语言区别
+- for...in 和 for ...of区别
+- 如何使用for ...of遍历对象
+- ajax axios fetch区别
+  - ajax是在无须重载整个页面的情况下，能够局部刷新网页的技术。
+  - axiso和fetch分别是ajax的替代品
+  - fetch是基于pomise设计的，它不是ajax的进一步封装吗，而是原生js
+    - 优：语法简洁，基于promise，更加底层，脱离了xhr
+    - 缺：只对网络请求报错，400.500都认为是成功请求，默认不懈怠cookie，需要添加credentials：‘include’ 不支持abort和超时控制，没有办法原生检测请求的进度
+  - axios是基于promise封装的http客户端
+- 数组遍历方法有哪些？
+- forEach 和map方法有什么区别？
+  - 因为它其实拿到的是一个浅拷贝的数组
+  - forEach直接操作item是不会改变原数组的，如果item是引用类型的直接赋值改变也不可以，但是操作它的属性是会改变原数组的
+  - map是返回一个新数组，引用类型如果map时做了操作也会改变
+# 原型与原型链
+- 理解
+- 原型修改，重写
+- 原型链指向
+- 原型链终点
+- 如何获取对象非原型链上的属性
+# 执行上下文、作用域链、闭包
+# this/call/apply/bind
+# 异步编程 promise
+# 面向对象
+# 垃圾回收&内存泄漏
