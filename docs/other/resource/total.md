@@ -1,4 +1,4 @@
-# CSS
+## CSS
 - css选择器
 - display属性 常见的四个+flex grid inherit
 - block ,inline-block,inline区别
@@ -70,7 +70,7 @@
     2. 使用伪元素先放大后缩小-可行性and兼容性都好
     3. viewport解决 但是会无差别缩小，其他元素maybe会被影响
 
-# js
+## js
 - js数据类型，区别 八种
 - 数据类型检测方式有哪些 typeof instanceof constructor Object.prototype.toString.call()
   -  null和undefined就没有constructor，constructor本质是对象实例访问它的构造函数，如果改变了它的原型的话-prototype,那么constructor就不能用来判断数据类型了,所以一般不用它来判断，它是有风险的。
@@ -120,7 +120,7 @@
 
 - 自己实现深拷贝：不要求正则和时间的情况下，手写自己熟悉的那个深拷贝，不然就是lodash那个吧还是
 
-# ES6
+## ES6
 - let const var的区别
   - 变量提升，块级作用域，全局属性，重复声明，暂时性死区，初始值，指针指向
 - const对象的属性可以修改吗？
@@ -148,7 +148,7 @@
 - 对rest参数的理解 可以把函数的多个入参收敛进一个数组里，可以用于处理函数参数个数不确定的情况
 - es6中模板语法与字符串处理
   includes startsWith endsWith repeat-自动重复
-# JS base
+## JS base
 - new操作符的实现原理
   - 创建一个新的空对象
   - 将这个对象的原型设置为构造函数的prototype
@@ -220,8 +220,7 @@
 - es6模块与commonjs模块有什么异同
   - 不同：commonjs是浅拷贝，Es6是对模块的引用，只读，不能改变其值。可以对commonjs重新赋值，改变指针指向，但是esmodule会报错
   - 相同：都可对引入的对象进行赋值，即对象内部属性的值可以改变
-  - 要详细瞅瞅:
-    - 
+  - 要详细瞅瞅: 
 - 常见的dom操作有哪些？
   - dom节点的增删改查
 - use strict什么意思，使用它区别是什么 (回家瞅瞅红宝书)
@@ -242,14 +241,424 @@
   - 因为它其实拿到的是一个浅拷贝的数组
   - forEach直接操作item是不会改变原数组的，如果item是引用类型的直接赋值改变也不可以，但是操作它的属性是会改变原数组的
   - map是返回一个新数组，引用类型如果map时做了操作也会改变
-# 原型与原型链
+## 原型与原型链
 - 理解
+  - 这个记忆一下那个很经典的图
+  - 那个经典图总结下三个注意点
+    - Object.prototype.__proto__=null;
+    - Object.__proto__=Function.prototype;
+    - Function.__proto__=Funciton.prototype;
+    - Function.prototype和Object.prototype这两个很特殊，他两由引擎来创建
+  - 每个构造函数都有一个属性是prototype，它指向 了一个对象，这个对象就是原型，调用构造函数创建的实例会通过__proto__关联构造函数的prototype，每个对象都是从prototype“继承”属性
+  - 我们常说的原型链查找机制就是从__proto__一层一层往上找，定层是object.prototype它的__proto__是null
+  - 而构造函数的每一个prototype都有一个constructor属性，指向构造函数本身
+  - 在这里 in 和hasOwnProperty的区别就是 in会判断属性是否在原型上，而hasOwnProperty不会判断原型上的属性，只判断对象实例上是否有
+  - for... in 判断实例和原型链上的 Object.keys()只遍历实例上的可遍历属性
 - 原型修改，重写
+  - 修改就是ptototype.属性赋值修改
+  - 重写是直接整个prototype整个赋值，注意可能就把constructor属性修改没了
 - 原型链指向
+  - 牢记那张图！
 - 原型链终点
+  - Object.prototype.__proto__是null
 - 如何获取对象非原型链上的属性
-# 执行上下文、作用域链、闭包
-# this/call/apply/bind
-# 异步编程 promise
-# 面向对象
-# 垃圾回收&内存泄漏
+  - 用hasOwnProperty()
+## 执行上下文、作用域链、闭包
+- 前行概念：
+  - 栈是存储基本类型数据和执行上下文的，所以栈的空间一般不大，如果大，存太多会影响执行上下文切换的效率，进而影响整个程序的执行效率。所以如果函数调用层级过深，会抛出栈溢出的错误
+  - js两个阶段：编译阶段和执行阶段，编译阶段要进行词法语法分析，确定作用域规则，生成可执行代码
+- 对闭包的理解
+  - 浅显的理解就是一个函数嵌套另一个函数，有权访问另一个函数作用域中变量的函数：
+  - 经典面试题：循环中使用闭包解决var定义函数的问题
+    ```
+    for (var i=1;i<5;i++){
+      setTimeout(
+        function timer(){
+          console.log(i);
+        }
+        ,i*1000)
+    }
+
+    首先下结论：因为settimeout异步，所以循环先走完，i是6，会输出一堆6；
+
+    解决方式：
+    1.闭包 使用立即执行函数
+    2.setTimeout的第三个参数 第三个参数会作为定时器里面的参数传入
+    3.使用let定义 <-最推荐的方式
+    ```
+- 对作用域，作用域链的理解
+  - 作用域：全局作用域，函数作用域，块级作用域（由let和const声明的包含在{ }中的代码片段）
+  - 作用域链 向父级查找，直到找到window，它的本质是一个指向变量对象的指针列表
+- 对执行上下文的理解
+  - 全局执行上下文和函数执行上下文，eval函数执行上下文
+## this/call/apply/bind
+- 对this的理解
+  - this可以根据四种调用方式判断
+  - 函数调用 全局
+  - 方法调用 作为对象的方法那就是对象
+  - 构造器调用模式 new的时候
+  - apply.call.bind调用 显示指定this指向进行修改。bind修改的指向除了使用new的时候会改变，其他情况下都不变，
+- call和apply的区别
+  - 他两作用一模一样，除了传入参数的形式不一样，apply是参数数组或类数组，
+- 手写首先call apply bind函数
+- 一个函数，一个对象，如果想改变函数内部的this指向，流程操作是：
+- 将这个函数设置为这个对象的一个属性
+- 执行函数（关键点在于怎么取出这个对象的参数）-this指向
+- 删除这个属性
+```
+1.call
+  Function.prototype.myCall =function(context){
+    if(typeof this !=='function'){
+      console.error('type error);
+    }
+    <!--这里应该是什么，这种情况下0 false 空字符串也会被判断为window -->
+    if(!context || context === null){
+      context = window;
+    }
+    <!-- 为什么要截取第一个参数后端额所有参数-》因为第一个参数是context呀 -->
+    let args =[...arguments].slice(1);
+    let fn = Symbol();
+    context[fn]=this;
+    const result =context[fn](..args);
+    delete context.fn;
+    return result;
+  }
+2.apply
+  Function.prototype.myApply =function(context,arguments){
+    if(typeof this !=='function'){
+      console.error('type error);
+    }
+    if(!context || context === null){
+      context = window;
+    }
+    let args =[...arguments].slice(1);
+    let fn = Symbol();
+    context[fn]=this;
+    const result =context[fn](..args);
+    delete context.fn;
+    return result;
+  }
+3.bind
+  Function.prototype.myBind(context,arguments){
+    if(typeof this !=='function'){
+      console.error('type error);
+    }
+    if(!context || context === null){
+      context = window;
+    }
+    let args =[...arguments].slice(1);
+    const _this =this;
+    let fn = Symbol();
+    context[fn]=this;
+    const result=function(...innerArgs){
+      
+      if(this instanceof _this === true){
+        <!-- 此时this指向result的实例，这时不需要改变this指向 -->
+        this[fn]=_this;
+        this[fn](...[...args,...innerArgs]);
+      }else{
+        <!-- 如果只是作为普通函数调用，直接改变this指向为传入的context -->
+        context[fn](...[...args,...innerArgs]);
+      }
+    }
+    <!--如果绑定的是构造函数，需要继承构造函数原型属性和方法  -->
+    result.prototype=Object.create(this.prototype);
+    return result;
+  }
+
+```
+## 异步编程 promise
+- 异步编程的实现方式
+  - 回调函数/promise/generator/async
+- setTimeout promise async/await的区别
+  - settimeout会被放入异步队列
+  - promise本事是同步的立即执行函数，执行resolve或者reject的时候是异步操作，会先执行then/catch，当主栈完成后，才会调用resolve/reject中存放的方法去执行，它的then和catch是会进微任务队列，在本轮事件循环的末尾进行，先于settimeout完成，settimeout是进宏任务队列的
+  - async函数返回一个promise对象，函数遇到await会先返回，等到触发的异步操作完成，再执行函数
+  体内后面的语句，让出了线程，跳出了async函数体
+  - async函数awiat后面可以是promise或原始类型的值（但这时就是同步操作了）
+  - await后的异步操作，如果彼此没有依赖关系最好同时触发，promise.all并发执行
+- 对promise的理解
+  - 异步编程的一种解决方案，它是一个对象，可以获取异步操作的信息，解决了回调地狱问题
+  - 三个状态pending resolved rejected 两个过程：一旦从进行状态变为其他状态就永远不能更改状态了
+  - 缺点：无法取消promise，不设置回调的话，promise内部抛出的错误，无法反应到外部，处于pending时无法得知目前发展到哪个阶段，刚开始还是即将完成
+- promise的基本用法
+  - new Promise参数是一个函数，带了resolve和reject参数，它两的返回值也是一个promise对象可以进行then调用
+  - 五个常用方法： then() catch() all() race() finally()
+    - race接收一个每项都是promise的数组，根据最先执行完的promise的状态来决定race的状态，使用场景可以是将一个promise跟一个延时放一起，超过多长时间就不做了，可以用race来解决
+    - finally不接收任何参数,与promise的状态无关，不依赖于promise的执行结果，本质是then方法的特例，then有两个参数。
+- promise解决了什么问题
+  - 回调地狱问题，后一个依赖前一个的结果
+- promise.all和promise.race的区别和使用场景
+  - all将多个promise实例包装成一个新的promise实例，成功时返回一个结果数组，失败返回最先reject的值，成功的结果数组跟all接收到的数组顺序一致
+  - race就是赛跑
+- 对async、await的理解
+  - 本质是generator的语法糖，它是为了优化then链开发出来的
+  - async函数返回的是一个promise对象，如果async里没有await，return关键字会把把返回值通过promise.resolve包装成promise对象,可以后续用then接收，如果没有返回值的话会包装成promise.resolve(undefined)。所以在没有await的情况下，它会立即执行，返回一个promise对象，并且不会阻塞后面的语句。
+  - 注意：Promise.resolve(x) 可以看作是 new Promise(resolve => resolve(x)) 的简写，可以用于快速封装字面量对象或其他对象，将其封装成 Promise 实例。
+- await在等什么
+  - await等待是返回值，只是普通是用来等待async，它可以等待任意表达式的结果，可以接普通函数调用或直接量，完全可以正常运行
+  - 总价await：如果它等的不是一个promise对象，那运算结果就是值；如果等的是一个promise对象，那它要忙起来了，它会阻塞后面的代码，等待promise对象resolve得到resolve的值作为其运算结果
+  - async函数本身不会造成阻塞，它内部所有的阻塞被封装在一个promise对象中异步执行，await会暂停当前async的执行，所以，async内部await后面的代码都会先等待promise返回，会阻塞。
+- async、await的优势
+  - 在多个异步任务且后一个依赖前一个异步结果的情形下，比promise的then链代码要美观很多
+- async/await对比Promise的优势
+  - 同上，promise虽然解决了回调地狱，但async/await比then链读起来更美观
+- async/await 如何捕获异常
+  - try...catch包裹await这一行句子，或者直接await后面加catch
+- 并发与并行的区别？---
+  - 并发宏观-通过任务间的切换在一段时间内完成了多个任务，并行微观-多个核心同时完成多任务
+- 什么是回调函数？回调函数有什么缺点？如何解决回调地狱问题？
+  - 嵌套，缺点：不能使用try...catch,不能直接return
+- setTimeout、setInterval、requestAnimationFrame 各有什么特点
+  - settimeout设置为0也不会同步进行，首先是html5规定最短的时间间隔是4ms，所以即使设置为0浏览器也可能4毫秒之后才推入任务队列，再有就是读到这行代码的时候，是先将它放入事件队列，时间满足后才推入任务队列，如果此时任务队列不为空，那就还需要等待
+  - 前两者虽然说是定时器，但是js是单线程执行，如果前面的代码阻塞了，那定时器就不一定能按时执行
+  - setinterval很不建议使用，因为它存在执行累积的问题，如果定时器执行过程中发生了耗时操作，多个回调函数会在耗时操作结束后同时执行，会带来性能问题
+  - settimeout有一个写法，循环调用自身
+  ```
+  setTimeout(funcitonfn(){
+    console.log('我被调用了');
+    setTimeout(fn,100)
+  },100)
+  这个模式链式调用settimeout，每次函数执行的时候都会创建一个新的定时器，在前一个定时器代码执行完之前，不会向队列插入新的定时器代码，确保不会有任何缺失的间隔
+  ```
+  - 如果有循环定时器的需求，推荐使用requestAnimatioinFrame
+    - 它是浏览器用于定时循环操作的一个借口，类似settimeout，主要用途是按帧对网页进行重绘，专门为动画提供的一个接口，window下面的
+    - 是在主线程上完成的，使用这个api，一旦页面不处于浏览器的当前标签，就会自动停止刷新。但是如果主线程非常繁忙，那它的这个动画效果打折扣
+  - 相关面试题
+  ```
+  1.setTimeout中的this指向问题：
+  var i =0;
+  const o={
+    i:1,
+    fn:function(){
+      console.log(this.i);
+    }
+  }
+  setTimeout(o.fn,1000);
+  答案：单纯调用o.fn()打印结果是1，但是上题中settimeout是window上的方法，o.fn作为参数传给了settimeout，仍然是在window对象上调用，所以执行结果是0
+
+  2.立即执行函数里包了定时器
+  (function(){
+    setTimeout(function(){
+      alert(2)
+    },0);
+    alert(1)
+  })()
+  先弹1再2 ，有最小延时4ms
+  3.经典的for遍历var里面放定时器，会输出相同的值
+  for (var i = 1; i <= 5; i++) {
+  setTimeout(function timer() {
+    console.log(i)
+  }, i * 1000)
+  }
+  解决办法：1.settimeout包一个立即执行函数把i传进去2.settimeout第三个参数3.let
+
+  4.使用setTimeout和setInterval进行间歇调用
+  var executeTimes = 0;
+  var intervalTime = 500;
+  var intervalId = null;
+  
+  // 放开下面的注释运行setInterval的Demo
+  intervalId = setInterval(intervalFun,intervalTime);
+  // 放开下面的注释运行setTimeout的Demo
+  // setTimeout(timeOutFun,intervalTime);
+  
+  function intervalFun(){
+      executeTimes++;
+      console.log("doIntervalFun——"+executeTimes);
+      if(executeTimes==5){
+          clearInterval(intervalId);
+      }
+  }
+  
+  function timeOutFun(){
+      executeTimes++;
+      console.log("doTimeOutFun——"+executeTimes);
+      if(executeTimes<5){
+          setTimeout(arguments.callee,intervalTime);
+      }
+  }
+  5.利用settimeout实现setinterval
+  function interval(func, w, t){
+    var interv = function(){
+        if(typeof t === "undefined" || t-- > 0){
+            setTimeout(interv, w);
+            try{
+                func.call(null);
+            }
+            catch(e){
+                t = 0;
+                throw e.toString();
+            }
+        }
+    };
+ 
+    setTimeout(interv, w);
+  };
+  ```
+## 面向对象
+- 对象创建的方式有哪些？
+  - 工厂模式
+  - 构造函数模式
+  - 原型模式
+  - 组合模式
+  - 动态原型模式
+  - 寄生构造函数模式
+- 对象继承的方式有哪些？
+  - 原型链继承有个缺点是如果原型上包含引用类型的数据，因为它们是共享的所以会有修改混乱的问题，还有就是不能在创建子类型的时候不能向父类传递参数
+  - 可以看到下面的fateher通过this声明的属性/方法都会绑定在new期间创建的新对象上；
+  - 新对象的原型是father.prototype.通过原型链可以查看到father.prototype的属性和方法
+  ```
+  function father(){
+    this.text="父类的this"
+  }
+  father.prototype.fatherText="父类原型上的属性或方法"
+  function son(){
+    this.text="子类的this"
+  }
+  son,prototype = new father(); //将父类的实例赋值给子类的原型
+  son.prototype.sonText="子类原型上的属性或方法"
+  const sonInstance = new son();
+  console.log(sonInstance);
+
+  ```
+  - 构造函数继承-在子类中调用超类的构造函数实现，可以传参，但是无法实现函数方法的复用，并且超类原型定义的方法子类无法访问
+    - 这个方法是在子类中使用call调用父类，fatherFn将会被立即执行，并且将fatherFn的this指向sonFn的this
+    - 因为函数执行了，所以fatherFn使用this声明的函数都会被声明到sonFN的this对象下
+    - 实例化子类，this将指向new期间创建的新对象，返回该新对象
+    - 对fatherFn.prototype无任何操作，无法继承
+    - 但是优点是可以传参，解决了原型链继承中，父类使用this声明的属性会存在实例共享问题,实现了实例化对象的独立性
+    - 缺点就是不能继承prototype上的属性/方法，父类方法无法复用，每次子类实例化都要执行父类函数，重新声明父类this里所定义的方法，因此方法无法复用
+  ```
+  function fatherFn(...arr) {
+    this.text = "父类的this属性";
+    this.params = arr;
+  }
+  fatherFn.prototype.fatherFnText = "父类原型对象的属性或者方法";
+  function sonFn(fatherParams, ...sonParams) {
+    fatherFn.call(this, ...fatherParams); // 将fatherFn的this指向sonFn
+    this.panda = "子类的this属性";
+    this.sonFn = sonParams;
+  }
+  sonFn.prototype.sonFnText = "子类原型对象的属性或者方法";
+  let fatherParamsArr = ['父类的参数1', '父类的参数2'];
+  let sonParamsArr = ['子类的参数1', '子类的参数2'];
+  const sonFnInstance = new sonFn(fatherParamsArr, ...sonParamsArr); // 实例化子类
+  console.log('借用构造函数子类实例', sonFnInstance);
+  打印的结果有fatherFn的params和text以及子类自身的属性，但是没有父类原型上的方法/属性
+  ```
+  - 组合继承(call+new)，将上面两种组合起来：缺点是：我们以超类的实例作为子类的原型，所以调用了两次超类的构造函数，造成子类的原型中多了很多不必要的属性
+    - 可以看到父类this声明的属性/方法，在子类实例的属性上和原型上都复制了一份
+  ```
+  function fatherFn(...arr) {
+  this.some = "父类的this属性";
+  this.params = arr;
+  }
+  fatherFn.prototype.fatherFnSome = "父类原型对象的属性或方法";
+  function sonFn() {
+    fatherFn.call(this, '借用构造继承', '第二次调用');
+    this.panda = '子类的this属性';
+  }
+  sonFn.prototype = new fatherFn('原型链继承', '第一次调用');
+  sonFn.prototype.sonFnSome = '子类原型对象的属性或者方法';
+  const sonFnInstance = new sonFn();
+  console.log('组合继承子类实例', sonFnInstance);
+
+  sonFn
+  panda: "子类的this属性"
+  params: (2) ["借用构造继承", "第二次调用"]
+  some: "父类的this属性"
+  __proto__: fatherFn
+    params: (2) ["原型链继承", "第一次调用"]
+    some: "父类的this属性"
+    sonFnSome: "子类原型对象的属性或者方法"
+    __proto__: Object
+  ```
+  - 原型式继承：基于已有的对象来创建新的对象，向函数中传入一个对象，然后返回一个以这个对象为原型的对象，这种继承的思路主要不是为了实现创造一种新的类型，只是对某个对象实现一种简单继承，ES5 中定义的 Object.create() 方法就是原型式继承的实现。缺点与原型链方式相同。
+    - 因为旧对象是实例对象的原型，多个实例共享被继承对象的属性，存在篡改的可能，这个很明显是因为形参引用值问题
+    - 而且无法传参
+  ```
+  function cloneObject(obj) {
+    function F(){}
+    F.prototype = obj;  // 将被继承的对象作为空函数的prototype 
+    return new F(); // 返回new期间创建的新对象，此对象的原型为被继承的对象，通过原型链找可以拿到被继承对象的属性
+  }
+
+
+  function fun(obj) {
+    function Son(){};
+    Son.prototype = obj;
+    return new Son();
+  }        
+  var parent = {
+      name:'张三'
+  }
+  var son1 = fun(parent);
+  var son2 = fun(parent);
+  console.log(son1.name);//张三  看这里，parent这个旧对象是每一个实例的son对象的原型，他们都是共享的，所以可能会被篡改
+  console.log(son2.name);//张三
+  ```
+  - 寄生式继承-寄生式继承的思路是创建一个用于封装继承过程的函数，通过传入一个对象，然后复制一个对象的副本，然后对象进行扩展，最后返回这个对象。这个扩展的过程就可以理解是一种继承。这种继承的优点就是对一个简单对象实现继承，如果这个对象不是自定义类型时。缺点是没有办法实现函数的复用。
+    - 它是在原型式继承的基础上，在函数内部丰富对象
+    - 优缺点：跟构造函数继承类似，调用一次函数就得创建一遍方法，无法实现函数复用，效率较低。
+    - 专门为对象来做某种固定方式的增强
+  ```
+  function fun(obj) {
+      function Son() { };
+      Son.prototype = obj;
+      return new Son();
+  }
+  function JiSheng(obj) {
+      var clone = fun(obj);
+      <!-- 上面这一步可以直接用var clone =Object.create(obj) -->
+      clone.Say = function () {
+          console.log('我是新增的方法');
+      }
+      return clone;
+  }
+  var parent = {
+      name: '张三'
+  }
+  var parent1 = JiSheng(parent);
+  var parent2 = JiSheng(parent);
+  console.log(parent2.Say==parent1.Say);// false
+  ```
+  - 寄生式组合继承，组合继承的缺点就是使用超类型的实例做为子类型的原型，导致添加了不必要的原型属性。寄生式组合继承的方式是使用超类型的原型的副本来作为子类型的原型，这样就避免了创建不必要的属性。
+    - 它是（call+寄生式封装）
+    - 原理借用构造函数（call）来继承父类this声明的属性、方法
+    - 通过寄生式封装函数设置父类prototype为子类prototype的原型来继承父类的prototype声明的属性/方法
+    - 它是最成熟的继承方式
+     1. 只调用一次父类Father构造函数
+     2. 避免在子类的prototype上创建不必要多余的属性
+     3. 使用原型式继承父类的prototype，保持了原型链上下文不变。子类的prototype只有子类通过prototype声明
+     4. 的属性/方法和父类prototype上的属性/方法泾渭分明
+  ```
+  function fatherFn(...arr) {
+    this.some = '父类的this属性';
+    this.params = arr;
+  }
+  fatherFn.prototype.fatherFnSome = '父类原型对象的属性或者方法';
+  function sonFn() {
+    fatherFn.call(this, '借用构造继承');  // 核心1 借用构造继承：继承父类通过this声明属性和方法至子类实例的属性上
+    this.panda = '子类的this属性';
+  }
+  // 核心2 寄生式继承：封装了son.prototype对象原型式继承father.prototype的过程，并且增强了传入的对象
+  function inheritPrototype(son, father) {
+    const fatherFnPrototype = Object.create(father.prototype);
+    son.prototype = fatherFnPrototype;
+    son.prototype.constructor = son;
+  }
+  inheritPrototype(sonFn, fatherFn);
+  sonFn.prototype.sonFnSome = '子类原型对象的属性或者方法';
+  const sonFnInstance = new sonFn();
+  console.log(sonFnInstance);
+  ```
+## 垃圾回收&内存泄漏
+- 浏览器的垃圾回收机制
+- 哪些情况会导致内存泄漏
+
+## 其余
+- css堵塞和js堵塞aloso?
+  - css文件是并行下载的，它不会阻塞构建dom树，css的下载不会阻塞后面js的下载，但是js下载完之后，会被阻塞执行（！css加载会影响js代码执行？惊惊），因为js可能会获取或改变元素的样式，所以浏览器会等前面的css加载解析完成之后，再执行下面的js
+  - 现代浏览器会并行加载js文件，按照书写顺序执行代码，加载或者执行js的时候会阻塞构建dom树，等js执行完毕，浏览器才会继续解析dom，因为js引擎线程和gui渲染线程互斥
+  - 如果不想让js阻塞dom树的生成，defer或者async标签，他两都是作用于外链js的，对内部js无效果，他两都是异步，区别在于执行顺序以及执行时间，async加载完就会立即执行，并不会按照书写顺序，谁下载好了就直接执行，所以适用于那些没有代码依赖顺序，并且没有dom操作的脚本文件。而defer会严格按照书写顺序执行，会在domcontentloaded之前，即页面加载完成时执行，适用于有dom操作，或者有代码依赖顺序的脚本文件

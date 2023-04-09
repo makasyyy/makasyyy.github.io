@@ -8,10 +8,10 @@ module.exports = {
         lineNumbers: true, //显示行号
         // anchor: { premalink: false },
         // toc: { includeLevel: [1, 2] },
-        config: (md) => {
-            const { demoBlockPlugin } = require('vitepress-theme-demoblock')
-            md.use(demoBlockPlugin)
-        }
+        // config: (md) => {
+        //     const { demoBlockPlugin } = require('vitepress-theme-demoblock')
+        //     md.use(demoBlockPlugin)
+        // }
     }, 
     lastUpdated:true,
     head: [
@@ -28,6 +28,7 @@ module.exports = {
         repo: 'https://github.com/makasyyy',
         author:'makasyyy',
         lastUpdatedText: '上次更新时间：',
+        smoothScroll:true,
         docFooter: {
             prev: '上一篇',
             next:'下一篇'
@@ -44,14 +45,52 @@ module.exports = {
             },
         ],
         // 侧边导航
-        sidebar: [
-            {text:'我的',link:'/mine/'}
-        ]
+        sidebar: {
+            '/other/resource/':getSideBar()
+        }
     }
 }
 
 function getSideBar() {
     return [{
-
-    }]
+        text: '基础三剑客',
+        link:'/other/resource/total'
+    },
+    {
+        text: 'netwotk',
+        link:'/other/resource/netWork'
+        },
+        {
+            text: 'netwotk_带answer',
+            link:'/other/resource/netWork_all'
+        },
+    {
+        text: '浏览器',
+        link:'/other/resource/browser'
+        },
+        {
+            text: '浏览器_带answer',
+            link:'/other/resource/browser_all'
+        },
+    {
+        text: '代码输出',
+        link:'/other/resource/codeInput'
+    },
+    {
+        text: '总结一',
+        link:'/other/resource/interview_1'
+    },
+    {
+        text: '总结二',
+        link:'/other/resource/interview_2'
+    },
+    {
+        text: '总结三',
+        link:'/other/resource/interview_3'
+    },
+    {
+        text: '总结四',
+        link:'/other/resource/interview_4'
+    }
+    ]
 }
