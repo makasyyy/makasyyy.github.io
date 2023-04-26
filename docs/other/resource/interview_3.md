@@ -1,4 +1,5 @@
 # 常见问题：
+
 - 你在昨天/本周学到了什么？
 - 编写代码的哪些方面能够使你兴奋或感兴趣？
 - 你最近遇到过什么技术挑战？你是如何解决的？
@@ -20,7 +21,9 @@
 - 请解释什么是 ARIA 和屏幕阅读器 (screenreaders)，以及如何使网- 站实现无障碍访问 (accessible)。
 - 请解释 CSS 动画和 JavaScript 动画的优缺点。
 - 什么是跨域资源共享 (CORS)？它用于解决什么问题？
+
 # HTML 相关问题：
+
 - doctype(文档类型) 的作用是什么？
 - 浏览器标准模式 (standards mode) 、几乎标准模式（almost - standards mode）和怪异模式 (quirks mode) 之间的区别是什么？
 - HTML 和 XHTML 有什么区别？
@@ -30,15 +33,17 @@
 - 使用 data- 属性的好处是什么？
 - 如果把 HTML5 看作做一个开放平台，那它的构建模块有哪些？
 - 请描述 cookies、sessionStorage 和 localStorage 的区别。
-- 为什么通常推荐将 CSS link放置在 head 之间，而将JS< script> 放置在 </ body> 之前？你知道有哪些例外吗？
+- 为什么通常推荐将 CSS link 放置在 head 之间，而将 JS< script> 放置在 </ body> 之前？你知道有哪些例外吗？
 - 请解释 < script>< script async> 和 < script defer> 的区别。
 - 什么是渐进式渲染 (progressive rendering)？
 - 你用过哪些不同的 HTML 模板语言？
+
 # CSS 相关问题：
+
 - CSS 中类 (classes) 和 ID 的区别。
 - 请问 "resetting" 和 "normalizing" CSS 之间的区别？你会如何选择，为什么？
 - 请解释浮动 (Floats) 及其工作原理。
-- 描述z-index和叠加上下文是如何形成的。
+- 描述 z-index 和叠加上下文是如何形成的。
 - 请描述 BFC(Block Formatting Context) 及其如何工作。
 - 列举不同的清除浮动的技巧，并指出它们各自适用的使用场景。
 - 请解释 CSS sprites，以及你要如何在页面或网站中实现它。
@@ -58,7 +63,7 @@
 - 请解释浏览器是如何判断元素是否匹配某个 CSS 选择器？
 - 请描述伪元素 (pseudo-elements) 及其用途。
 - 请解释你对盒模型的理解，以及如何在 CSS 中告诉浏览器使用不同的盒模- 型来渲染你的布局。
-- 请解释 * { box-sizing: border-box; } 的作用, 并且说明使用它- 有什么好处？
+- 请解释 \* { box-sizing: border-box; } 的作用, 并且说明使用它- 有什么好处？
 - 请罗列出你所知道的 display 属性的全部值
 - 请解释 inline 和 inline-block 的区别？
 - 请解释 relative、fixed、absolute 和 static 元素的区别
@@ -68,7 +73,9 @@
 - 为什么响应式设计 (responsive design) 和自适应设计 - (adaptive design) 不同？
 - 你有兼容 retina 屏幕的经历吗？如果有，在什么地方使用了何种技术？
 - 请问为何要使用 translate() 而非 absolute positioning，或反之的理由？为什么？
+
 # JS 相关问题：
+
 - 请解释事件代理 (event delegation)。
 - 请解释 JavaScript 中 this 是如何工作的。
 - 请解释原型继承 (prototypal inheritance) 的原理。
@@ -119,7 +126,21 @@
 - 什么是事件循环 (event loop)？
 - 请问调用栈 (call stack) 和任务队列 (task queue) 的区别是什- 么？
 - 解释 function foo() {} 与 var foo = function() {} 用法的区别
+- 1、从输入网址到网页加载完成，发生了什么？
+- 2、什么是重绘？什么是回流？
+- 3、怎么减少重绘回流？
+- 4、讲讲 DOMContentLoad 这个方法？
+- 5、Webpack 打包的三种 hash 值有了解吗？
+- 6、Webpack 的多页面打包怎么配置？
+- 7、CSS 的多浏览器兼容如何做？
+- 8、Video 标签有哪些方法？暂停一个 Video 的播放需要执行哪个方法？
+- 9、Canvas 了解过吗？有哪些用法？
+- 10、Vue 和 React 有哪些区别？
+- 11、怎么实现一个 Webpack 的 loader？
+- 12、说一说 Webpack 的 chunk？
+
 # 测试相关问题：
+
 - 对代码进行测试的有什么优缺点？
 - 你会用什么工具测试你的代码功能？
 - 单元测试与功能/集成测试的区别是什么？
@@ -141,46 +162,56 @@
 - X-Frame-Options
 - 什么是 HTTP method？请罗列出你所知道的所有 HTTP method，并给出解释。
 - 请解释 HTTP status 301 与 302 的区别？
+
 # 代码相关的问题：
-- 问题：foo的值是什么？
+
+- 问题：foo 的值是什么？
 
 var foo = 10 + '20';
 问题：如何实现以下函数？
 
 add(2, 5); // 7
 add(2)(5); // 7
+
 - 问题：下面的语句的返回值是什么？
 
 "i'm a lasagna hog".split("").reverse().join("");
-- 问题：window.foo的值是什么？
+
+- 问题：window.foo 的值是什么？
 
 ( window.foo || ( window.foo = "bar" ) );
+
 - 问题：下面两个 alert 的结果是什么？
 
 var foo = "Hello";
 (function() {
-  var bar = " World";
-  alert(foo + bar);
+var bar = " World";
+alert(foo + bar);
 })();
 alert(foo + bar);
-- 问题：foo.length的值是什么？
+
+- 问题：foo.length 的值是什么？
 
 var foo = [];
 foo.push(1);
 foo.push(2);
-- 问题：foo.x的值是什么？
+
+- 问题：foo.x 的值是什么？
 
 var foo = {n: 1};
 var bar = foo;
 foo.x = foo = {n: 2};
+
 - 问题：下面代码的输出是什么？
 
 console.log('one');
 setTimeout(function() {
-  console.log('two');
+console.log('two');
 }, 0);
 console.log('three');
+
 # 趣味问题：
+
 - 你最近写过什么的很酷的项目吗？
 - 在你使用的开发工具中，最喜欢哪些方面？
 - 谁使你踏足了前端开发领域？
